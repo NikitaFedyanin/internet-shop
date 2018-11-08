@@ -6,31 +6,32 @@ import java.util.Set;
 
 @Entity
 @Table(name = "orders")
-public class OrderJPA {
+public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "orders_id_seq", sequenceName = "orders_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orders_id_seq")
     private Long id;
 
     @Column
     private Date date;
 
-   @OneToOne
-   @JoinColumn(name = "user_id")
-    private UserJPA userJPA;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User userJPA;
 
     @Column
     private Long price;
 
     @OneToOne
     @JoinColumn(name = "status_id")
-    private StatusJPA status;
+    private Status status;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "products_orders",
     joinColumns = @JoinColumn(name = "id_order"),
     inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<ProductJPA> products;
+    private Set<Product> products;
 
     public Long getId() {
         return id;
@@ -48,11 +49,11 @@ public class OrderJPA {
         this.date = date;
     }
 
-    public UserJPA getUserJPA() {
+    public User getUserJPA() {
         return userJPA;
     }
 
-    public void setUserJPA(UserJPA userJPA) {
+    public void setUserJPA(User userJPA) {
         this.userJPA = userJPA;
     }
 
@@ -64,19 +65,19 @@ public class OrderJPA {
         this.price = price;
     }
 
-    public StatusJPA getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(StatusJPA status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
-    public Set<ProductJPA> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(Set<ProductJPA> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 }

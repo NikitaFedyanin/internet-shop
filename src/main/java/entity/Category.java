@@ -6,10 +6,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "categories")
-public class CategoryJPA {
+public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "categories_id_seq", sequenceName = "categories_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categories_id_seq")
     private Long id;
 
     @Column
@@ -22,11 +23,11 @@ public class CategoryJPA {
     @JoinTable(name = "product_categories",
     joinColumns = @JoinColumn(name = "id_category"),
             inverseJoinColumns = @JoinColumn(name = "id_product"))
-    private Set<ProductJPA> products;
+    private Set<Product> products;
 
     @OneToMany
     @JoinColumn(name = "id_parent")
-    private Set<CategoryJPA> categories;
+    private Set<Category> categories;
 
     public Long getId() {
         return id;
@@ -52,19 +53,19 @@ public class CategoryJPA {
         this.category = category;
     }
 
-    public Set<ProductJPA> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(Set<ProductJPA> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 
-    public Set<CategoryJPA> getCategories() {
+    public Set<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<CategoryJPA> categories) {
+    public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
 }

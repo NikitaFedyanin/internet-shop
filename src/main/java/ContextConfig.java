@@ -1,13 +1,14 @@
+import dao.UserDAO;
 import org.hibernate.cfg.Environment;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import java.util.HashMap;
 import java.util.Map;
-
 
 @Configuration
 public class ContextConfig {
@@ -16,8 +17,9 @@ public class ContextConfig {
         private  EntityManagerFactory entityManagerFactory;
 
         @Bean
-        public void entityManagerFactory(){
+        public EntityManagerFactory entityManagerFactory(){
             entityManagerFactory = Persistence.createEntityManagerFactory("persistence-name", setting());
+            return entityManagerFactory;
         }
 
 
@@ -29,12 +31,18 @@ public class ContextConfig {
         settings.put(Environment.USER, "postgres");
         settings.put(Environment.PASS, "admin");
         settings.put(Environment.DIALECT, "org.hibernate.dialect.PostgresPlusDialect");
+        settings.put(Environment.PREFER_GENERATOR_NAME_AS_DEFAULT_SEQUENCE_NAME, "me_sqn");
         return settings;
         }
 
         @Bean
-        public void entityManager(){
-            entityManagerFactory.createEntityManager();
+        public EntityManager entityManager(){
+          return entityManagerFactory.createEntityManager();
+        }
+
+        @Bean
+        public UserDAO userDAO(){
+            return new UserDAO();
         }
 
 }

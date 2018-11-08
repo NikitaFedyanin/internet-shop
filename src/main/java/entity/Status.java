@@ -4,14 +4,18 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "status")
-public class StatusJPA {
+public class Status {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "status_id_seq", sequenceName = "status_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "status_id_seq")
     private Long id;
 
     @Column
     private String name;
+
+    @Column
+    private String sysname;
 
     public Long getId() {
         return id;
@@ -37,7 +41,6 @@ public class StatusJPA {
         this.sysname = sysname;
     }
 
-    @Column
-    private String sysname;
+
 
 }

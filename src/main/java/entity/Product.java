@@ -5,10 +5,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "products")
-public class ProductJPA {
+public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "products_id_seq", sequenceName = "products_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "products_id_seq")
     private Long id;
 
     @Column
@@ -27,14 +28,13 @@ public class ProductJPA {
     @JoinTable(name = "product_categories",
             joinColumns = @JoinColumn(name = "id_product"),
             inverseJoinColumns = @JoinColumn(name = "id_category"))
-    private Set<CategoryJPA> categories;
+    private Set<Category> categories;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "product_orders",
             joinColumns = @JoinColumn(name = "id_product"),
             inverseJoinColumns = @JoinColumn(name = "id_order"))
-    private Set<OrderJPA> orders;
-
+    private Set<Order> orders;
 
 
     public Long getId() {
@@ -77,19 +77,19 @@ public class ProductJPA {
         this.warehouse = warehouse;
     }
 
-    public Set<CategoryJPA> getCategories() {
+    public Set<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<CategoryJPA> categories) {
+    public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
 
-    public Set<OrderJPA> getOrders() {
+    public Set<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<OrderJPA> orders) {
+    public void setOrders(Set<Order> orders) {
         this.orders = orders;
     }
 }
